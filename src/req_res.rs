@@ -50,7 +50,7 @@ impl<'a> Request<'a> {
 
         let mut lines: Vec<&str> = req_str.lines().collect();
 
-        let mut parts = lines[0].split(" ");
+        let mut parts = lines[0].split(' ');
 
         let method = parts.next()?.to_string();
         let uri = parts.next()?.to_string();
@@ -63,11 +63,11 @@ impl<'a> Request<'a> {
         lines.remove(0);
 
         for (idx, &i) in lines.iter().enumerate() {
-            if i.len() == 0 {
+            if i.is_empty() {
                 body = lines[idx + 1].trim().replace("\u{0}", "");
             }
 
-            let pair: Vec<&str> = i.split(":").map(|e| e.trim()).collect();
+            let pair: Vec<&str> = i.split(':').map(|e| e.trim()).collect();
             if pair.len() >= 2 {
                 headers.insert(pair[0].to_string(), pair[1].to_string());
             }

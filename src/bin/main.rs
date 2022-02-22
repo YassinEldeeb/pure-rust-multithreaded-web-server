@@ -1,9 +1,9 @@
-use num_cpus;
 use std::{
     io::prelude::*,
     net::{TcpListener, TcpStream},
 };
-use web_server::{Response, ThreadPool};
+use threadpool::ThreadPool;
+use web_server::Response;
 
 fn main() {
     let num_of_cpus = (num_cpus::get() as f64 * 0.8) as usize;
@@ -35,10 +35,6 @@ fn handle_connection(mut stream: TcpStream) {
     let res = Response::new(&buffer).get_page();
 
     stream
-        .write(res.as_bytes())
-        .expect("Couldn't write bytes to the stream!");
-
-    stream
-        .flush()
+        .write_all(res.as_bytes())
         .expect("Couldn't write all bytes to the stream!");
 }
