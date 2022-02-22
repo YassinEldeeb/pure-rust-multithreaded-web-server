@@ -2,8 +2,6 @@ use num_cpus;
 use std::{
     io::prelude::*,
     net::{TcpListener, TcpStream},
-    thread,
-    time::Duration,
 };
 use web_server::{Response, ThreadPool};
 
@@ -36,7 +34,6 @@ fn handle_connection(mut stream: TcpStream) {
 
     let res = Response::new(&buffer).get_page();
 
-    thread::sleep(Duration::from_millis(10));
     stream
         .write(res.as_bytes())
         .expect("Couldn't write bytes to the stream!");
